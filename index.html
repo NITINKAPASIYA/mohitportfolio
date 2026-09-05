@@ -1182,7 +1182,7 @@
 
   <div class="work-grid reveal">
     <div class="proj p1" data-cat="branding video"
-         data-video=""
+         data-video="https://www.youtube.com/watch?v=p_PxOfFnbLM&t=113s"
          data-poster=""
          data-preview="">
       <div class="proj-year">2026</div>
@@ -1215,10 +1215,10 @@
         <span class="p-name">SAAS animation</span>
       </div></div>
     </div>
-    <div class="proj p4" data-cat="video branding"
-         data-video=""
+    <div class="proj p4" data-cat="video branding" data-loop
+         data-video="media/rehoboth.mp4"
          data-poster=""
-         data-preview="">
+         data-preview="media/rehoboth.mp4">
       <span class="proj-tag">SELECTED</span>
       <div class="proj-year">2025</div>
       <div class="card-play"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 4L20 12L6 20V4Z" fill="#c9a35f"/></svg></div>
@@ -1227,10 +1227,10 @@
         <span class="p-name">Rehoboth</span>
       </div></div>
     </div>
-    <div class="proj p5" data-cat="branding"
-         data-video=""
+    <div class="proj p5" data-cat="branding" data-loop
+         data-video="media/kulcha-kulture.mp4"
          data-poster=""
-         data-preview="">
+         data-preview="media/kulcha-kulture.mp4">
       <div class="proj-year">2025</div>
       <div class="card-play"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 4L20 12L6 20V4Z" fill="#c9a35f"/></svg></div>
       <div class="proj-surface"><div class="proj-meta">
@@ -1238,10 +1238,10 @@
         <span class="p-name">The Kulcha Kulture, Bengaluru</span>
       </div></div>
     </div>
-    <div class="proj p6" data-cat="graphic"
-         data-video=""
+    <div class="proj p6" data-cat="graphic" data-loop
+         data-video="media/svida.mp4"
          data-poster=""
-         data-preview="">
+         data-preview="media/svida.mp4">
       <div class="proj-year">2025</div>
       <div class="card-play"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 4L20 12L6 20V4Z" fill="#c9a35f"/></svg></div>
       <div class="proj-surface"><div class="proj-meta">
@@ -1250,7 +1250,7 @@
       </div></div>
     </div>
     <div class="proj p7 new" data-cat="video"
-         data-video=""
+         data-video="https://www.instagram.com/reel/Dcsk6ShoHdH/"
          data-poster=""
          data-preview="">
       <span class="proj-tag">SELECTED</span>
@@ -1493,11 +1493,17 @@
     if (/\.(mp4|webm|mov)(\?.*)?$/i.test(s)) {
       return '<video src="' + s + '" controls autoplay playsinline></video>';
     }
+    const insta = s.match(/instagram\.com\/(?:reel|reels|p|tv)\/([A-Za-z0-9_-]+)/);
+    if (insta) return frame('https://www.instagram.com/reel/' + insta[1] + '/embed/');
     const vimeo = s.match(/vimeo\.com\/(?:video\/)?(\d+)/);
     if (vimeo) return frame('https://player.vimeo.com/video/' + vimeo[1] + '?autoplay=1');
     let yt = s.match(/(?:youtu\.be\/|[?&]v=|\/shorts\/|\/embed\/|\/live\/)([A-Za-z0-9_-]{11})/);
     if (!yt && /^[A-Za-z0-9_-]{11}$/.test(s)) yt = [null, s];
-    if (yt) return frame('https://www.youtube.com/embed/' + yt[1] + '?autoplay=1&rel=0&modestbranding=1&playsinline=1');
+    if (yt) {
+      const t = s.match(/[?&]t=(\d+)/);
+      const start = t ? '&start=' + t[1] : '';
+      return frame('https://www.youtube.com/embed/' + yt[1] + '?autoplay=1&rel=0&modestbranding=1&playsinline=1' + start);
+    }
     return frame(s);
   }
 
@@ -1559,8 +1565,9 @@
     }
 
     if (video) {
+      const vertical = card.classList.contains('reel-card') || /instagram\.com|\/shorts\//.test(video);
       card.addEventListener('click', () => {
-        openLightbox(video, card.classList.contains('reel-card'));
+        openLightbox(video, vertical);
       });
     }
   });
