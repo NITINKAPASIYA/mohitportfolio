@@ -1192,10 +1192,10 @@
         <span class="p-name">Zomato Restaurant Partners</span>
       </div></div>
     </div>
-    <div class="proj p2" data-cat="branding motion"
-         data-video=""
+    <div class="proj p2" data-cat="branding motion" data-loop
+         data-video="media/shahi-swaad.mp4"
          data-poster=""
-         data-preview="">
+         data-preview="media/shahi-swaad.mp4">
       <span class="proj-tag">SELECTED</span>
       <div class="proj-year">2026</div>
       <div class="card-play"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 4L20 12L6 20V4Z" fill="#c9a35f"/></svg></div>
@@ -1204,10 +1204,10 @@
         <span class="p-name">Shahi Swaad</span>
       </div></div>
     </div>
-    <div class="proj p3" data-cat="motion"
-         data-video=""
+    <div class="proj p3" data-cat="motion" data-loop
+         data-video="media/saas.mp4"
          data-poster=""
-         data-preview="">
+         data-preview="media/saas.mp4">
       <div class="proj-year">2025</div>
       <div class="card-play"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 4L20 12L6 20V4Z" fill="#c9a35f"/></svg></div>
       <div class="proj-surface"><div class="proj-meta">
@@ -1530,12 +1530,23 @@
       if (preview) {
         el = document.createElement('video');
         el.src = preview;
-        el.muted = true; el.loop = true; el.playsInline = true;
-        el.setAttribute('muted', ''); el.setAttribute('playsinline', '');
-        el.preload = 'metadata';
+        el.muted = true; el.loop = true; el.playsInline = true; el.autoplay = true;
+        el.setAttribute('muted', ''); el.setAttribute('playsinline', ''); el.setAttribute('autoplay', '');
+        el.preload = 'auto';
         if (poster) el.poster = poster;
-        card.addEventListener('mouseenter', () => { el.play().catch(() => {}); });
-        card.addEventListener('mouseleave', () => { el.pause(); el.currentTime = 0; });
+
+        // Continuously looping cards (data-loop) autoplay whenever on screen.
+        if (card.hasAttribute('data-loop')) {
+          const playObs = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) el.play().catch(() => {}); else el.pause(); });
+          }, { threshold: 0.1 });
+          playObs.observe(card);
+          el.play().catch(() => {});
+        } else {
+          // Default: preview plays on hover only.
+          card.addEventListener('mouseenter', () => { el.play().catch(() => {}); });
+          card.addEventListener('mouseleave', () => { el.pause(); el.currentTime = 0; });
+        }
       } else {
         el = document.createElement('img');
         el.src = poster;
