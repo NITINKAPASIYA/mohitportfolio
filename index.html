@@ -347,11 +347,49 @@
     .hero{ grid-template-columns: 1fr; }
     nav{ padding: 24px 24px; }
     .nav-links{ display: none; }
-    .hero-copy{ padding: 140px 24px 0; order: 1; }
+    .hero-copy{ padding: 130px 24px 0; order: 1; }
     .hero-portrait{ height: 52vh; order: 0; padding: 70px 24px 10px; }
     .hero-portrait img{ max-height: 100%; }
-    .brands{ position: relative; padding: 20px 24px 100px; flex-direction: column; align-items: flex-start; gap: 16px; }
+    .brands{ position: relative; padding: 20px 24px 90px; flex-direction: column; align-items: flex-start; gap: 16px; }
     .brands-label{ margin-right: 0; }
+  }
+
+  /* ---- Phones ---- */
+  @media (max-width: 560px){
+    nav{ padding: 20px 20px; }
+    .hero-copy{ padding: 108px 20px 0; }
+    h1.name{ font-size: clamp(52px, 17vw, 76px); }
+    .titles{ margin-top: 22px; font-size: 13px; gap: 8px; }
+    p.intro{ font-size: 14px; max-width: 100%; }
+    .scroll-cue{ margin-top: 40px; }
+    .hero-portrait{ height: 44vh; padding: 60px 20px 6px; }
+    .brands{ padding: 16px 20px 72px; }
+
+    section{ padding: 80px 20px; }
+    .about h2{ font-size: clamp(30px, 8vw, 40px); }
+    .about-body p{ font-size: 15px; line-height: 1.75; margin-bottom: 40px; }
+    .stat-row{ gap: 32px 40px; }
+
+    .work-head h2{ font-size: clamp(46px, 15vw, 72px); }
+    .filters{ gap: 18px 20px; }
+    .filters button{ font-size: 12px; }
+    .work-grid{ grid-template-columns: 1fr; grid-auto-rows: 220px; gap: 14px; }
+    .proj.p1, .proj.p2, .proj.p3, .proj.p4, .proj.p5, .proj.p6, .proj.p7, .proj.p8{
+      grid-column: span 1; grid-row: span 1;
+    }
+    .proj-meta .p-name{ font-size: 19px; }
+
+    .reels-grid{ max-width: 100%; }
+    .p-row{ grid-template-columns: 1fr; gap: 8px; }
+    .p-row .p-desc{ grid-column: 1; }
+    .tool{ flex: 1 1 100%; font-size: 18px; padding: 24px 20px; }
+
+    .contact h2{ font-size: clamp(34px, 10vw, 52px); }
+    .contact p{ font-size: 15px; }
+    .contact-actions{ gap: 14px; }
+    .contact-actions .btn{ flex: 1 1 100%; text-align: center; }
+    .socials{ gap: 20px 28px; flex-wrap: wrap; margin-top: 52px; }
+    footer{ padding: 32px 20px; }
   }
 
   /* =========================================================
@@ -511,7 +549,10 @@
   .work-head h2{
     font-family: 'Playfair Display', serif;
     font-weight: 600;
-    font-size: clamp(40px, 5vw, 64px);
+    font-size: clamp(56px, 9vw, 118px);
+    line-height: 0.98;
+    color: var(--gold);
+    letter-spacing: -1px;
   }
   .filters{
     display: flex;
